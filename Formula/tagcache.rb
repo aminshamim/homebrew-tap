@@ -1,17 +1,17 @@
 class Tagcache < Formula
   desc "Lightweight, sharded, tag-aware in-memory cache server"
   homepage "https://github.com/aminshamim/tagcache"
-  version "1.0.2"
+  version "1.0.5"
   license "MIT"
   
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-macos-x86_64.tar.gz"
-      sha256 "978de2727a5d80fc2071866539b3ac234800eef0897862d250bbff0f8ef6b767"
+      sha256 "6d8e4b20abd0c0d2ac17b938fbb032d0bada06022f2c2c47a25b2ace319a9e9f"
     end
     if Hardware::CPU.arm?
       url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-macos-arm64.tar.gz"
-      sha256 "51b3006febedf92f40b7845ff33c18607f794788e811c354611e37bd38f14de4"
+      sha256 "9ca5c0a242bfe151b7ccd739e56b58fb52b73ca49d7522116fe14bc55d1ed948"
     end
   end
 
