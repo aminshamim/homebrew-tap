@@ -7,22 +7,22 @@ class Tagcache < Formula
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-macos-x86_64.tar.gz"
-      sha256 "357d8ede91ae028784bccbbc237b8ed509728fa8e94c7b8ef7c1c84171bfa117"
+      sha256 "f758717c58123b39f85f54ee87c410caf838043c5bd980c0c49eacefef3867b6"
     end
     if Hardware::CPU.arm?
       url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-macos-arm64.tar.gz"
-      sha256 "4389e5e6dc06379ea21cf7cc402cd08b3bdc3624254ecd9d195464fa7be8dcf0"
+      sha256 "42fc75f2da7bee044d0b8680fc11ed5325d041a9de3c5d9d2deb3139d8a527fe"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
       url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-linux-x86_64.tar.gz"
-      sha256 "500665f82d6b8b9dbe375872f6d99335bf296ae5fe02c513e3d5b5e7a2cefb14"
+      sha256 "2cd7b3d12b23a1e48f50959781b787d7d0ca3b1aaaa76158f2a75d643bba0340"
     end
     if Hardware::CPU.arm? && Hardware::CPU.arch == :arm64
       url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-linux-arm64.tar.gz"
-      sha256 "4cdbffc5d9beebf3a10497f21a25503354dcb1465784ea437b2d7bbba396a96c"
+      sha256 "40d897590b278fb6aa0eda2a7f778dabf4e7a187b32a6478636da25f19566050"
     end
   end
 
