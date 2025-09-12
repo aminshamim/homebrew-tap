@@ -1,35 +1,35 @@
 class Tagcache < Formula
   desc "Lightweight, sharded, tag-aware in-memory cache server"
   homepage "https://github.com/aminshamim/tagcache"
-  version "1.0.5"
+  version "1.0.8"
   license "MIT"
   
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-macos-x86_64.tar.gz"
-      sha256 "6d8e4b20abd0c0d2ac17b938fbb032d0bada06022f2c2c47a25b2ace319a9e9f"
+      sha256 "c0cdf954c7f3c3b0f6798dd2c33b39f22170a0d9593fa61441b698c8c21f6e61"
     end
     if Hardware::CPU.arm?
       url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-macos-arm64.tar.gz"
-      sha256 "9ca5c0a242bfe151b7ccd739e56b58fb52b73ca49d7522116fe14bc55d1ed948"
+      sha256 "ba3fa5478942964c33c286e5b8061b406db3133b4ed8609b5450fa6788c8a0ad"
     end
   end
 
   on_linux do
-    # Linux binaries will be available in future releases
-    # For now, build from source on Linux
-    depends_on "rust" => :build
+    if Hardware::CPU.intel?
+      url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-linux-x86_64.tar.gz"
+      sha256 "500665f82d6b8b9dbe375872f6d99335bf296ae5fe02c513e3d5b5e7a2cefb14"
+    end
+    if Hardware::CPU.arm? && Hardware::CPU.arch == :arm64
+      url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-linux-arm64.tar.gz"
+      sha256 "4cdbffc5d9beebf3a10497f21a25503354dcb1465784ea437b2d7bbba396a96c"
+    end
   end
 
   def install
-    if OS.linux?
-      # Build from source on Linux
-      system "cargo", "build", "--release"
-      bin.install "target/release/tagcache"
-    else
-      # Use pre-built binary on macOS
-      bin.install "tagcache"
-    end
+    # Use pre-built binaries for all supported platforms
+    bin.install "tagcache"
+    bin.install "bench_tcp"
     
     # Install example configuration
     (etc/"tagcache").mkpath
@@ -47,17 +47,22 @@ class Tagcache < Formula
   end
 
   test do
-    # Test that the binary exists and shows help
+    # Test that the binaries exist and show help
     system "#{bin}/tagcache", "--help"
+    system "#{bin}/bench_tcp", "--help"
     
     # Test that we can start the server and it responds
     port = free_port
-    pid = spawn "#{bin}/tagcache", "PORT=#{port}", "TCP_PORT=#{port + 1}"
-    sleep 2
+    tcp_port = free_port
+    
+    # Start tagcache server in background
+    pid = spawn "#{bin}/tagcache", 
+                env: { "PORT" => port.to_s, "TCP_PORT" => tcp_port.to_s }
+    sleep 3
     
     begin
-      # Try to connect to the HTTP endpoint
-      system "curl", "-f", "http://localhost:#{port}/stats"
+      # Try to connect to the HTTP health endpoint
+      system "curl", "-f", "http://localhost:#{port}/health"
     ensure
       Process.kill("TERM", pid)
       Process.wait(pid)
