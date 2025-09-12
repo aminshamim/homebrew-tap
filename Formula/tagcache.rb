@@ -7,11 +7,11 @@ class Tagcache < Formula
   on_macos do
     if Hardware::CPU.intel?
       url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-macos-x86_64.tar.gz"
-      sha256 "c0cdf954c7f3c3b0f6798dd2c33b39f22170a0d9593fa61441b698c8c21f6e61"
+      sha256 "357d8ede91ae028784bccbbc237b8ed509728fa8e94c7b8ef7c1c84171bfa117"
     end
     if Hardware::CPU.arm?
       url "https://github.com/aminshamim/tagcache/releases/download/v#{version}/tagcache-macos-arm64.tar.gz"
-      sha256 "ba3fa5478942964c33c286e5b8061b406db3133b4ed8609b5450fa6788c8a0ad"
+      sha256 "4389e5e6dc06379ea21cf7cc402cd08b3bdc3624254ecd9d195464fa7be8dcf0"
     end
   end
 
